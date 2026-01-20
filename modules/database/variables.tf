@@ -9,15 +9,15 @@ variable "volume_name" {
 }
 
 variable "db_name" {
-  type        = string
+  type = string
 }
 
 variable "db_user" {
-  type        = string
+  type = string
 }
 
 variable "db_password" {
-  type        = string
+  type = string
 }
 
 variable "port" {

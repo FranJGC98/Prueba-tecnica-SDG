@@ -36,10 +36,10 @@ resource "docker_container" "postgres" {
 
   restart = "unless-stopped"
   healthcheck {
-  test     = ["CMD-SHELL", "pg_isready -U ${var.postgres_user}"]
-  interval = "30s"
-  timeout  = "5s"
-  retries  = 5
-}
+    test     = ["CMD-SHELL", "pg_isready -U ${var.postgres_user}"]
+    interval = "30s"
+    timeout  = "5s"
+    retries  = 5
+  }
 
 }

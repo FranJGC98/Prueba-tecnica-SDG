@@ -13,12 +13,12 @@ resource "docker_container" "nginx" {
 }
 
 module "network" {
-  source        = "./modules/network"
-  name          = "network01"
+  source = "./modules/network"
+  name   = "network01"
 }
 
 module "volumes" {
-  source        = "./modules/volumes"
+  source = "./modules/volumes"
 }
 
 module "storage" {
@@ -29,7 +29,7 @@ module "storage" {
 
   minio_root_user     = "minioadmin"
   minio_root_password = "minioadmin"
-  postgres_user     = "airflow"
+  postgres_user       = "airflow"
 }
 
 module "databse" {
@@ -38,10 +38,10 @@ module "databse" {
   network_name = module.network.name
   volume_name  = module.volumes.postgres
 
-  db_name     = "airflow"
-  db_user     = "airflow"
-  db_password = "airflow"
-  postgres_user     = "airflow"
+  db_name       = "airflow"
+  db_user       = "airflow"
+  db_password   = "airflow"
+  postgres_user = "airflow"
 }
 
 module "airflow" {

@@ -9,11 +9,11 @@ variable "volume_name" {
 }
 
 variable "minio_root_user" {
-  type        = string
+  type = string
 }
 
 variable "minio_root_password" {
-  type        = string
+  type = string
 }
 
 variable "api_port" {

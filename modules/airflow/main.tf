@@ -123,11 +123,11 @@ resource "docker_container" "airflow_web" {
 
   restart = "unless-stopped"
   healthcheck {
-  test     = ["CMD", "curl", "-f", "http://localhost:8080/health"]
-  interval = "30s"
-  timeout  = "5s"
-  retries  = 5
-}
+    test     = ["CMD", "curl", "-f", "http://localhost:8080/health"]
+    interval = "30s"
+    timeout  = "5s"
+    retries  = 5
+  }
 
 }
 

@@ -47,25 +47,25 @@ resource "docker_container" "minio" {
 
   restart = "unless-stopped"
   healthcheck {
-  test     = ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-  interval = "30s"
-  timeout  = "5s"
-  retries  = 5
-}
+    test     = ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+    interval = "30s"
+    timeout  = "5s"
+    retries  = 5
+  }
 
 }
 
 resource "docker_container" "minio_mc" {
-  name  = "minio-mc-init"
-  image = "minio/mc:latest"
+  name     = "minio-mc-init"
+  image    = "minio/mc:latest"
   must_run = false
 
 
   depends_on = [docker_container.minio]
 
   entrypoint = [
-  "/bin/sh", "-c",
-  <<-EOF
+    "/bin/sh", "-c",
+    <<-EOF
     until mc alias set local http://minio:9000 ${var.minio_root_user} ${var.minio_root_password}; do
       echo "Waiting for MinIO..."
       sleep 3
@@ -73,7 +73,7 @@ resource "docker_container" "minio_mc" {
 
     mc mb --ignore-existing local/data-bucket
   EOF
-]
+  ]
 
   networks_advanced {
     name = var.network_name
