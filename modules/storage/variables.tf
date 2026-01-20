@@ -25,7 +25,7 @@ variable "console_port" {
   type    = number
   default = 9001
 }
-variable "postgres_user" {
+variable "db_user" {
   description = "PostgreSQL username"
   type        = string
 }

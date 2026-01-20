@@ -34,7 +34,8 @@ with DAG(
     default_args=default_args,
     description='Prueba de integración: Airflow -> Postgres -> MinIO',
     start_date=datetime(2025, 1, 1),
-    schedule_interval=None, # Se lanza manualmente
+    schedule_interval="*/1 * * * *", # Se lanza cada 120 segundos
+    is_paused_upon_creation=False,
     catchup=False,
     tags=['e2e', 'testing']
 ) as dag:

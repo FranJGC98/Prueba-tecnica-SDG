@@ -17,3 +17,14 @@ output "airflow_dags" {
   description = "Airflow dags volume name"
   value       = docker_volume.airflow_dags.name
 }
+output "minio_volume" {
+  value = docker_volume.minio.name
+}
+
+output "postgres_volume" {
+  value = docker_volume.postgres.name
+}
+
+output "airflow_logs_volume" {
+  value = docker_volume.airflow_logs.name
+}

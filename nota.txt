@@ -1,0 +1,6 @@
+Complicaciones:
+
+1.- conexion por defecto con la postgrest 
+2.- cambio de nombre en el scrip para que se ejecute bien || s3 = S3Hook(aws_conn_id='minio_s3')
+3.- Creacion de pipeline en github
+4.- Dejar los volumenes persistentes

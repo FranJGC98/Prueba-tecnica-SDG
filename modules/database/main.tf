@@ -30,13 +30,13 @@ resource "docker_container" "postgres" {
   }
 
   ports {
-    internal = 5432
+    internal = var.port
     external = var.port
   }
 
   restart = "unless-stopped"
   healthcheck {
-    test     = ["CMD-SHELL", "pg_isready -U ${var.postgres_user}"]
+    test     = ["CMD-SHELL", "pg_isready -U ${var.db_user}"]
     interval = "30s"
     timeout  = "5s"
     retries  = 5

@@ -14,7 +14,7 @@ variable "postgres_db" {
   type = string
 }
 
-variable "postgres_user" {
+variable "db_user" {
   type = string
 }
 

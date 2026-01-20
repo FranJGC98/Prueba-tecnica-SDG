@@ -24,7 +24,3 @@ variable "port" {
   type    = number
   default = 5432
 }
-variable "postgres_user" {
-  description = "PostgreSQL username"
-  type        = string
-}

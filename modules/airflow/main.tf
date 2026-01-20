@@ -19,7 +19,7 @@ resource "docker_container" "airflow_init" {
 
   env = [
     "AIRFLOW__CORE__EXECUTOR=LocalExecutor",
-    "AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${var.postgres_user}:${var.postgres_password}@${var.postgres_host}:5432/${var.postgres_db}",
+    "AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${var.db_user}:${var.postgres_password}@${var.postgres_host}:5432/${var.postgres_db}",
     "AIRFLOW__CORE__LOAD_EXAMPLES=False",
     "AIRFLOW_CONN_POSTGRES_DEFAULT=postgresql://airflow:airflow@postgres:5432/airflow",
     "_PIP_ADDITIONAL_REQUIREMENTS=apache-airflow-providers-amazon apache-airflow-providers-postgres"
@@ -47,7 +47,7 @@ resource "docker_container" "airflow_init" {
         --conn-type postgres \
         --conn-host postgres \
         --conn-schema ${var.postgres_db} \
-        --conn-login ${var.postgres_user} \
+        --conn-login ${var.db_user} \
         --conn-password ${var.postgres_password} \
         --conn-port 5432 || true
 
@@ -89,7 +89,7 @@ resource "docker_container" "airflow_web" {
 
   env = [
     "AIRFLOW__CORE__EXECUTOR=LocalExecutor",
-    "AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${var.postgres_user}:${var.postgres_password}@${var.postgres_host}:5432/${var.postgres_db}",
+    "AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${var.db_user}:${var.postgres_password}@${var.postgres_host}:5432/${var.postgres_db}",
     "AIRFLOW__CORE__LOAD_EXAMPLES=False",
 
     "AIRFLOW__WEBSERVER__WEB_SERVER_HOST=0.0.0.0",
@@ -142,7 +142,7 @@ resource "docker_container" "airflow_scheduler" {
 
   env = [
     "AIRFLOW__CORE__EXECUTOR=LocalExecutor",
-    "AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${var.postgres_user}:${var.postgres_password}@${var.postgres_host}:5432/${var.postgres_db}",
+    "AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${var.db_user}:${var.postgres_password}@${var.postgres_host}:5432/${var.postgres_db}",
     "AIRFLOW_CONN_POSTGRES_DEFAULT=postgresql://airflow:airflow@postgres:5432/airflow",
     "_PIP_ADDITIONAL_REQUIREMENTS=apache-airflow-providers-amazon apache-airflow-providers-postgres"
   ]
