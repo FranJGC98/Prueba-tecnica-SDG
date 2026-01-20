@@ -1,0 +1,57 @@
+name: Terraform Plan
+
+# Este workflow se ejecuta automáticamente
+on:
+  # En cada push a main
+  push:
+    branches: [ "main" ]
+
+  # En cada Pull Request
+  pull_request:
+
+env:
+  TF_VERSION: "1.5.0"
+  TF_WORKING_DIR: "terraform"
+
+jobs:
+  terraform-plan:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+
+    steps:
+      # Descarga el código del repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Instala Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      # Inicializa Terraform
+      - name: Terraform Init
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform init -input=false
+
+      # Comprueba formato del código
+      - name: Terraform Format Check
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform fmt -check -recursive
+
+      # Valida la configuración
+      - name: Terraform Validate
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform validate
+
+      # Genera el plan SIN aplicar cambios
+      - name: Terraform Plan
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform plan -input=false -out=tfplan
+
+      # Guarda el plan como artefacto
+      - name: Upload Terraform Plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan
+          path: terraform/tfplan
