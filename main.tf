@@ -29,6 +29,7 @@ module "storage" {
 
   minio_root_user     = "minioadmin"
   minio_root_password = "minioadmin"
+  postgres_user     = "airflow"
 }
 
 module "databse" {
@@ -40,6 +41,7 @@ module "databse" {
   db_name     = "airflow"
   db_user     = "airflow"
   db_password = "airflow"
+  postgres_user     = "airflow"
 }
 
 module "airflow" {
