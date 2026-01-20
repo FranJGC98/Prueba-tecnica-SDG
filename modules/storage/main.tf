@@ -46,6 +46,13 @@ resource "docker_container" "minio" {
   }
 
   restart = "unless-stopped"
+  healthcheck {
+  test     = ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+  interval = "30s"
+  timeout  = "5s"
+  retries  = 5
+}
+
 }
 
 resource "docker_container" "minio_mc" {
