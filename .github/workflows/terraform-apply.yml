@@ -1,6 +1,5 @@
 name: Terraform Apply (Manual)
 
-# Este workflow SOLO se puede ejecutar manualmente
 on:
   workflow_dispatch:
 
@@ -12,42 +11,31 @@ jobs:
   terraform-apply:
     name: Terraform Apply
     runs-on: ubuntu-latest
+    environment: terraform-apply
 
     steps:
-      # Descarga el código del repositorio
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Instala Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
-      # Inicializa Terraform
       - name: Terraform Init
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: terraform init -input=false
 
-      # Descarga el plan previamente generado
-      - name: Terraform Plan
-        working-directory: ${{ env.TF_WORKING_DIR }}
-        run: terraform plan -input=false -out=tfplan
+      - name: Download Terraform Plan
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-plan
 
-      - name: Show Terraform Plan 
+      - name: Show Terraform Plan
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: |
-          echo "===== Terraform Plan (terraform show) ====="
           terraform show -no-color tfplan
 
-      - name: Upload Terraform Plan (text)
-        uses: actions/upload-artifact@v4
-        with:
-            name: terraform-plan-text
-            path: ${{ env.TF_WORKING_DIR }}/tfplan.txt
-
-
-      # Aplica EXACTAMENTE el plan revisado
       - name: Terraform Apply
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: terraform apply -input=false tfplan

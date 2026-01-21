@@ -4,6 +4,7 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
+  workflow_dispatch:
 
 env:
   TF_VERSION: "1.5.0"
@@ -39,18 +40,18 @@ jobs:
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: terraform plan -input=false -out=tfplan
 
-      - name: Generate Terraform Plan (text)
+      - name: Generate Terraform Plan
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: terraform show -no-color tfplan > tfplan.txt
 
       - name: Upload Terraform Plan (binary)
         uses: actions/upload-artifact@v4
         with:
-          name: terraform-plan
+          name: terraform-plan-binary
           path: tfplan
 
-      - name: Upload Terraform Plan (text)
+      - name: Upload Terraform Plan
         uses: actions/upload-artifact@v4
         with:
-          name: terraform-plan-text
+          name: terraform-plan
           path: tfplan.txt
