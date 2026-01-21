@@ -14,28 +14,21 @@ jobs:
     environment: terraform-apply
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
-      - name: Terraform Init
+      - run: terraform init -input=false
         working-directory: ${{ env.TF_WORKING_DIR }}
-        run: terraform init -input=false
 
-      - name: Download Terraform Plan
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           name: terraform-plan
 
-      - name: Show Terraform Plan
+      - run: terraform show -no-color tfplan
         working-directory: ${{ env.TF_WORKING_DIR }}
-        run: |
-          terraform show -no-color tfplan
 
-      - name: Terraform Apply
+      - run: terraform apply -input=false tfplan
         working-directory: ${{ env.TF_WORKING_DIR }}
-        run: terraform apply -input=false tfplan
