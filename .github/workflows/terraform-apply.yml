@@ -2,10 +2,6 @@ name: Terraform Apply
 
 on:
   workflow_dispatch:
-    inputs:
-      plan_run_id:
-        description: "Run ID del workflow Terraform Plan"
-        required: true
 
 env:
   TF_VERSION: "1.5.0"
@@ -27,11 +23,8 @@ jobs:
       - run: terraform init -input=false
         working-directory: ${{ env.TF_WORKING_DIR }}
 
-      - uses: actions/download-artifact@v4
-        with:
-          name: terraform-plan
-          run-id: ${{ inputs.plan_run_id }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: terraform plan -input=false -out=tfplan
+        working-directory: ${{ env.TF_WORKING_DIR }}
 
       - run: terraform show -no-color tfplan
         working-directory: ${{ env.TF_WORKING_DIR }}
